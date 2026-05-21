@@ -147,6 +147,75 @@ def main(page: ft.Page):
             )
         ]
     )
+#--- 5. Predictive Diagnostics Engine (Mockup) ---
+    prediction_result = ft.Text("Awaiting input...", italic=True, color="#888888")
+
+    def run_diagnostics(e):
+        # This is where our Machine Learning model will go!
+        # For now, it's a simple rule-based mock response.
+        appliance = dd_appliance.value
+        symptom = dd_symptom.value
+        
+        if appliance == "AC" and symptom == "Not Cooling":
+            result = "Prediction: 85% chance of Low Refrigerant/Gas Leak. Recommended Action: Dispatch tech with R32 Gas cylinder."
+            prediction_result.color = "red"
+        elif appliance == "Washing Machine" and symptom == "Making Noise":
+            result = "Prediction: 90% chance of Worn Drum Bearings. Recommended Action: Dispatch tech with replacement bearing kit."
+            prediction_result.color = "orange"
+        else:
+            result = f"Analyzing {appliance} for '{symptom}'... (ML Model needs more data)"
+            prediction_result.color = "#169ba6"
+            
+        prediction_result.value = result
+        page.update() # Tells the UI to refresh with the new text
+
+    dd_appliance = ft.Dropdown(
+        label="Select Appliance",
+        width=250,
+        options=[
+            ft.dropdown.Option("AC"),
+            ft.dropdown.Option("Washing Machine"),
+            ft.dropdown.Option("Water Purifier"),
+        ],
+    )
+    
+    dd_symptom = ft.Dropdown(
+        label="Primary Symptom",
+        width=250,
+        options=[
+            ft.dropdown.Option("Not Cooling"),
+            ft.dropdown.Option("Making Noise"),
+            ft.dropdown.Option("Won't Turn On"),
+            ft.dropdown.Option("Leaking Water"),
+        ],
+    )
+
+    diagnostics_section = ft.Container(
+        bgcolor="#f4f9f9",
+        padding=40,
+        border_radius=10,
+        margin=ft.margin.symmetric(vertical=40),
+        border=ft.border.all(2, "#169ba6"),
+        content=ft.Column(
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            controls=[
+                ft.Text("AI Predictive Diagnostics", size=28, weight="bold", color="#222222"),
+                ft.Text("Identify the likely issue before the technician even arrives.", color="#555555"),
+                ft.Container(height=20),
+                ft.Row(alignment=ft.MainAxisAlignment.CENTER, controls=[dd_appliance, dd_symptom]),
+                ft.Container(height=10),
+                ft.ElevatedButton("Run AI Analysis", bgcolor="#169ba6", color="white", on_click=run_diagnostics),
+                ft.Container(height=20),
+                ft.Container(
+                    padding=15, 
+                    bgcolor="white", 
+                    border_radius=8, 
+                    border=ft.border.all(1, "#ddd"),
+                    content=prediction_result
+                )
+            ]
+        )
+    )
 
     # --- Assemble Everything onto the Page ---
     page.add(
@@ -157,6 +226,7 @@ def main(page: ft.Page):
             content=ft.Column(
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 controls=[
+                    diagnostics_section, 
                     testimonials,
                     ft.Container(
                         content=ft.Text("Read More...", color="#f5b301", weight="bold"),
