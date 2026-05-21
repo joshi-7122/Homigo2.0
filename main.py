@@ -5,21 +5,20 @@ def main(page: ft.Page):
     page.title = "Homigo UI"
     page.bgcolor = "#fdfdfd"
     page.padding = 0
-    page.scroll = ft.ScrollMode.AUTO # Crucial for a full webpage so it scrolls
+    page.scroll = ft.ScrollMode.AUTO 
 
     # --- 1. Navigation Bar ---
     navbar = ft.Container(
         bgcolor="#169ba6",
-        padding=ft.padding.symmetric(horizontal=40, vertical=15),
+        # FIX: Replaced symmetric with explicitly defining all sides
+        padding=ft.padding.only(left=40, right=40, top=15, bottom=15),
         content=ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
             controls=[
-                # Logo with dual colors
                 ft.Row(spacing=0, controls=[
                     ft.Text("onsite", size=26, weight="bold", color="white"),
                     ft.Text("go", size=26, weight="bold", color="#ffc107")
                 ]),
-                # Links
                 ft.Row(spacing=25, controls=[
                     ft.Text("Device & Plans", color="white", weight="w500"),
                     ft.Text("Activate Plan", color="white", weight="w500"),
@@ -31,7 +30,6 @@ def main(page: ft.Page):
         )
     )
 
-    # --- Helper function to build a testimonial card ---
     def create_testimonial(name, location, review):
         return ft.Container(
             bgcolor="white",
@@ -43,7 +41,6 @@ def main(page: ft.Page):
             content=ft.Row(
                 vertical_alignment=ft.CrossAxisAlignment.START,
                 controls=[
-                    # Avatar and User Info
                     ft.Column(
                         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         controls=[
@@ -52,7 +49,6 @@ def main(page: ft.Page):
                             ft.Text(location, color="#777777", size=13)
                         ]
                     ),
-                    # Review Content
                     ft.Column(
                         expand=True,
                         controls=[
@@ -76,7 +72,6 @@ def main(page: ft.Page):
         ]
     )
 
-    # --- Helper function to build aggregate ratings ---
     def create_rating(icon_char, icon_color, text_color, count):
         return ft.Row(
             controls=[
@@ -103,8 +98,9 @@ def main(page: ft.Page):
     # --- 3. Aggregate Ratings Section ---
     ratings = ft.Container(
         border=ft.border.symmetric(horizontal=ft.border.BorderSide(1, "#f0f0f0")),
-        padding=ft.padding.symmetric(vertical=40),
-        margin=ft.margin.symmetric(vertical=40),
+        # FIX: Replaced symmetric padding/margins
+        padding=ft.padding.only(top=40, bottom=40),
+        margin=ft.margin.only(top=40, bottom=40),
         content=ft.Row(
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
             wrap=True,
@@ -116,11 +112,11 @@ def main(page: ft.Page):
         )
     )
 
-    # --- Helper function to build partner logos ---
     def create_partner(name, text_color, bg_color="white"):
         return ft.Container(
             bgcolor=bg_color,
-            padding=ft.padding.symmetric(horizontal=25, vertical=15),
+            # FIX: Replaced symmetric padding
+            padding=ft.padding.only(left=25, right=25, top=15, bottom=15),
             border_radius=6,
             shadow=ft.BoxShadow(blur_radius=10, color=ft.colors.with_opacity(0.04, "black")),
             content=ft.Text(name, size=24, weight="bold", color=text_color)
@@ -132,7 +128,7 @@ def main(page: ft.Page):
         controls=[
             ft.Text("SPOTLIGHT", color="#169ba6", size=14, weight="bold"), 
             ft.Text("Our Partners", size=32, color="#222222", weight="bold"),
-            ft.Container(height=20), # Spacer
+            ft.Container(height=20),
             ft.Row(
                 wrap=True,
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -147,12 +143,11 @@ def main(page: ft.Page):
             )
         ]
     )
-#--- 5. Predictive Diagnostics Engine (Mockup) ---
+
+    # --- 5. Predictive Diagnostics Engine (Mockup) ---
     prediction_result = ft.Text("Awaiting input...", italic=True, color="#888888")
 
     def run_diagnostics(e):
-        # This is where our Machine Learning model will go!
-        # For now, it's a simple rule-based mock response.
         appliance = dd_appliance.value
         symptom = dd_symptom.value
         
@@ -167,7 +162,7 @@ def main(page: ft.Page):
             prediction_result.color = "#169ba6"
             
         prediction_result.value = result
-        page.update() # Tells the UI to refresh with the new text
+        page.update() 
 
     dd_appliance = ft.Dropdown(
         label="Select Appliance",
@@ -194,7 +189,8 @@ def main(page: ft.Page):
         bgcolor="#f4f9f9",
         padding=40,
         border_radius=10,
-        margin=ft.margin.symmetric(vertical=40),
+        # FIX: Replaced symmetric margin
+        margin=ft.margin.only(top=40, bottom=40),
         border=ft.border.all(2, "#169ba6"),
         content=ft.Column(
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -221,7 +217,8 @@ def main(page: ft.Page):
     page.add(
         navbar,
         ft.Container(
-            padding=ft.padding.symmetric(horizontal=20, vertical=50),
+            # FIX: Replaced symmetric padding
+            padding=ft.padding.only(left=20, right=20, top=50, bottom=50),
             alignment=ft.alignment.center,
             content=ft.Column(
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
