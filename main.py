@@ -18,7 +18,19 @@ st.set_page_config(page_title="Homigo | Smart Hub", layout="wide", initial_sideb
 # --- CUSTOM UI INJECTION (CSS for Header, Grid, Hover Effects, and Footer) ---
 st.markdown("""
     <style>
-        .block-container { padding-top: 0rem; padding-bottom: 0rem; max-width: 100%; padding-left: 0; padding-right: 0;}
+        /* Hide Streamlit's default header */
+        [data-testid="stHeader"] {
+            display: none !important;
+        }
+
+        /* Ensure the main container goes all the way to the top */
+        .block-container { 
+            padding-top: 0rem !important; 
+            padding-bottom: 0rem; 
+            max-width: 100%; 
+            padding-left: 0; 
+            padding-right: 0;
+        }
         
         /* Navbar (Matches Image 1) */
         .navbar {
@@ -45,18 +57,37 @@ st.markdown("""
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .sign-in-btn:hover { background-color: #f0f0f0; }
-        
         /* Hero Section */
         .hero {
-            background-color: #6a1b9a; 
-            padding: 60px 20px;
-            text-align: center;
+            /* Seamless gradient starting from the exact navbar color */
+            /* NEW ATTRACTIVE HERO BACKGROUND (Premium Home/Appliances with Purple Overlay) */
+    background-image: linear-gradient(rgba(74, 20, 140, 0.88), rgba(106, 27, 154, 0.95)),
+                      url(https://i.postimg.cc/qvmYwVKv/apppappapapapapa.jpg);
+            padding: 40px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border-bottom: 6px solid #ffab40; /* Premium accent line at the bottom */
         }
-        .hero h1 { font-weight: 300; margin-bottom: 10px; color: white; font-size: 30px; line-height: 1.2; }
-        .hero .highlight { color: #ffab40; font-size: 56px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; } 
-        .hero h2 { color: white; font-size: 26px; font-weight: 500; }
+        .hero-image-container { 
+            flex: 1; 
+            text-align: center; 
+        }
+        .hero-image-container img { 
+            width: 100%; 
+            max-width: 450px; 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); /* Adds depth to the image */
+        }
+        .hero-text { 
+            flex: 1.2; 
+            text-align: right; /* Aligns text to the right like Onsitego */
+            padding-left: 20px;
+        }
+        .hero h1 { font-weight: 300; margin-bottom: 10px; color: white; font-size: 32px; line-height: 1.2; }
+        .hero .highlight { color: #ffab40; font-size: 60px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); } 
+        .hero h2 { color: white; font-size: 22px; font-weight: 500; }
         
         /* Explore Our Services Grid */
         .services-section {
@@ -168,9 +199,14 @@ if menu == "🏠 Home / AMC Hub":
         </div>
         
         <div class="hero">
-            <h1>Say goodbye to unexpected repair costs with</h1>
-            <div class="highlight">Homigo Shield</div>
-            <h2>Premier Care For Your Home Devices</h2>
+            <div class="hero-image-container">
+                <img src="https://i.postimg.cc/qvmYwVKv/apppappapapapapa.jpg" alt="Home Appliances" style="border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.1);">
+            </div>
+            <div class="hero-text">
+                <h1>Say goodbye to unexpected repair costs with</h1>
+                <div class="highlight">Homigo Shield</div>
+                <h2>Premier Care For Your Home Devices</h2>
+            </div>
         </div>
 
         <div class="services-section">
@@ -437,3 +473,5 @@ st.markdown("""
         </div>
     </div>
 """, unsafe_allow_html=True)
+
+
